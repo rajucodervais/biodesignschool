@@ -1,0 +1,86 @@
+<%- include('../partials/header') %>
+<%- include('../partials/topnav') %>
+<div id="layoutSidenav">
+    <%- include('../partials/sidenav') %>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <div class="app-title card card-content">
+                    <div>
+                        <h1><i class="fa fa-book-open"></i> Posts</h1>
+                    </div>
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="card-title  text-right">
+                            <a href="/posts/create" class="btn btn-primary"><i class="fa fa-plus"></i> Add Post</a>
+                        </div>
+                        <br>
+                        <table class="responsive-table highlight" id="post-table" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>published Date</th>
+                                    <th>Duration From</th>
+                                    <th>Duration To</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(posts.length > 0){%>
+                                <% posts.forEach(function(post) { %>
+                                    <tr>
+                                        <td><%= post.id%></td>
+                                        <td><%= post.title%></td>
+                                        <td><%= post.date_published%></td>
+                                        <td><%= post.from_date%></td>
+                                        <td><%= post.to_date%></td>
+                                        <td style="display: inline-flex;">
+                                            <a href="/posts/edit/<%= post.id %>" class="text-primary"><i class="fa fa-edit"></i></a>&nbsp; 
+                                            <a href="/posts/view/<%= post.id %>" class="text-info"><i class="fa fa-eye"></i></a>&nbsp; 
+                                            <a href="/posts/destroy/<%= post.id %>" class="text-danger" onclick="return confirm('Are you sure to delete?')"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                <% }); }%>
+                                
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<%- include('../partials/footer') %>
+<script>
+    $(document).ready(function () {
+        $('#post-table').DataTable();
+    })
+</script>
+<style>
+    #post-table_length label {
+        display: inline-flex !important;
+        color: black;
+    }
+    
+    #post-table_length label select{
+        display: block !important;
+        margin-left: 10px;
+        margin-right: 10px;
+        height: auto;
+    }
+    #post-table_filter label{
+        display: inline-flex !important;
+        color: black;
+    }
+    #post-table_filter input{
+        margin-left: 10px;
+        height: auto;
+    }
+</style>

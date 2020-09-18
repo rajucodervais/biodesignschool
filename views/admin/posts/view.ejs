@@ -1,0 +1,53 @@
+<%- include('../partials/header') %>
+<%- include('../partials/topnav') %>
+<div id="layoutSidenav">
+    <%- include('../partials/sidenav') %>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <div class="app-title card card-content">
+                    <div>
+                        <h1><i class="fa fa-book-open"></i> Posts > View</h1>
+                    </div>
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="/posts" class="btn btn-secondary">Back</a>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2><%= posts[0].title%></h2>
+                            <p>
+                              <strong>Published </strong>: <%= posts[0].date_published%>
+                            </p>
+                            <p>
+                              <strong>Begin Date for apply </strong>  <%= posts[0].from_date%>
+                            </p>
+                            <p>
+                              <strong>Last Date for Apply </strong>  <%= posts[0].to_date%>
+                            </p>
+                            <p>
+                              <%- posts[0].description %>
+                            </p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<%- include('../partials/footer') %>
+<script>
+    $(document).ready(function () {
+        $('#post-table').datatable();
+        $('.published_date').datepicker();
+        $('.from_date').datepicker();
+        $('.to_date').datepicker();
+    })
+</script>

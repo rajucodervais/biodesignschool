@@ -1,0 +1,414 @@
+<%- include('../partials/header'); %>
+<%- include('../partials/register-nav'); %>
+<!-- ======= background slider Section ======= -->
+<main id="main" style="margin-top: 140px;">
+  <div class="container mt-4 mb-4" data-aos="fade-up">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <form action="/users/apply-form" method="POST">
+              <h6 class="">Basic Informations</h6>
+              <hr class="">
+              <div class="basic-information">
+                <div class="row">
+                  <div class="col-md-3 col-sm-3">
+                    <label for="">Full Name<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-8 col-md-8">
+                    <input type="text" name="full_name" id="full_name" disabled value="<%= user[0].full_name%>"
+                      class="form-control" placeholder="Full Name">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3 col-sm-3">
+                    <label for="">Father's Name<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-8 col-md-8">
+                    <input type="text" name="father_name" id="father_name" disabled value="<%= user[0].father_name%>"
+                      class="form-control" placeholder="Father's Name">
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-md-3 col-sm-3">
+                    <label for="">Date Of Birth <span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-5 col-md-5">
+                    <input type="text" readonly name="dob" id="dob" disabled value="<%= user[0].dob%>"
+                      class="form-control" placeholder="date of birth">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-sm-3 col-md-3">
+                    <label for="">Gender <span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-5 col-md-5">
+                    <select name="gender" class="form-control" id="gender" disabled>
+                      <option value=""></option>
+                      <option value="1" <%= (user[0].gender == '1')?'selected':''%>>Male</option>
+                      <option value="2" <%= (user[0].gender == '2')?'selected':''%>>Female</option>
+                      <option value="3" <%= (user[0].gender == '3')?'selected':''%>>Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <h6 class="">Permanent Address</h6>
+              <hr class="">
+              <div class="permanent-address">
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">House No./Apartment Name/Block No <span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-8 col-md-8">
+                    <input type="text" name="houseno" id="houseno" class="form-control"
+                      placeholder="House No./Apartment Name/Block No">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <label for="">Road/ Street/ Lane</label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="street" id="street" class="form-control" placeholder="date of birth">
+                  </div>
+                  <div class="col-sm-2 col-md-2">
+                    <label for="">Area/Landmark<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="landmark" id="landmark" class="form-control" placeholder="Area/Landmark">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <label for="">country<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="country" id="country" class="form-control" placeholder="Country">
+                  </div>
+                  <div class="col-sm-2 col-md-2">
+                    <label for="">State<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="state" id="state" class="form-control" placeholder="State">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <label for="">City<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="city" id="city" class="form-control" placeholder="City">
+                  </div>
+                  <div class="col-sm-2 col-md-2">
+                    <label for="">Pincode<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="pincode" id="pincode" class="form-control" placeholder="pincode">
+                  </div>
+                </div>
+                <br>
+                <div class="row bg-info">
+                  <div class="col-sm-12">
+                    <label class="radio-inline text-white">
+                      Are the Permanent and Present Address same?<span class="">*</span>
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" value="1" id="yes_same" name="radio"> Yes
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" value="0" id="no_same" name="radio"> no
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <h6 class="">Current Address</h6>
+              <hr class="">
+              <div class="current-address">
+                <div class="row">
+                  <div class="col-md-4 col-sm-4">
+                    <label for="">House No./Apartment Name/Block No <span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-8 col-md-8">
+                    <input type="text" name="current_houseno" id="current_houseno" class="form-control"
+                      placeholder="House No./Apartment Name/Block No">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <label for="">Road/ Street/ Lane</label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="current_street" id="current_street" class="form-control"
+                      placeholder="date of birth">
+                  </div>
+                  <div class="col-sm-2 col-md-2">
+                    <label for="">Area/Landmark<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="current_landmark" id="current_landmark" class="form-control"
+                      placeholder="Area/Landmark">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <label for="">country<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="current_country" id="current_country" class="form-control"
+                      placeholder="Country">
+                  </div>
+                  <div class="col-sm-2 col-md-2">
+                    <label for="">State<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="current_state" id="current_state" class="form-control" placeholder="State">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2 col-sm-2">
+                    <label for="">City<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="current_city" id="current_city" class="form-control" placeholder="City">
+                  </div>
+                  <div class="col-sm-2 col-md-2">
+                    <label for="">Pincode<span class="">*</span> </label>
+                  </div>
+                  <div class="col-sm-4 col-md-4">
+                    <input type="text" name="current_pincode" id="current_pincode" class="form-control"
+                      placeholder="pincode">
+                  </div>
+                </div>
+                <br>
+                <h6 class="">Contact Details</h6>
+                <hr>
+                <div class="contact-div">
+                  <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                      <label for="">Email Id<span class="">*</span> </label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                      <input type="email" disabled name="email" id="email" value="<%= user[0].email %>"
+                        class="form-control" placeholder="Email Id">
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                      <label for="">Alternate Email Id</label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                      <input type="email" name="alternate_email" id="alternate_email" class="form-control"
+                        placeholder="Email Id">
+                    </div>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                      <label for="">Mobile number<span class="">*</span> </label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                      <input type="text" name="mobile" id="mobile" class="form-control" value="<%= user[0].mobile %>"
+                        placeholder="mobile number" disabled>
+                    </div>
+                    <div class="col-sm-2 col-md-2">
+                      <label for="">Alternate Mobile</label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                      <input type="text" name="alternate_mobile" id="alternate_mobile" class="form-control"
+                        placeholder="alternate mobile number">
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <h6 class="">Qualifications</h6>
+                <hr>
+                <div class="qualifications-div">
+                  <div id="main-row-1">
+                    <table class="table table-bordered">
+                      <thead style="background: aliceblue;color: blue;">
+                        <tr>
+                          <td width="10%" rowspan="2">Course Name</td>
+                          <td width="10%" rowspan="2">Roll No.</td>
+                          <td width="15%" rowspan="2">Board of Eucation/ University</td>
+                          <td width="15%" rowspan="2">Institute</td>
+                          <td width="10%" colspan="2">Duration</td>
+                          <td width="10%" rowspan="2">Specialization</td>
+                          <td width="10%" rowspan="2">Course Type</td>
+                          <td width="10%" rowspan="2">Grading type</td>
+                          <td width="10%" rowspan="2">SGPA/Percentage</td>
+                        </tr>
+                        <tr>
+                          <td width="5%">From</td>
+                          <td width="5%">To</td>
+                        </tr>
+
+                      </thead>
+                      <tbody class="qualification-tbody">
+                        <tr id="qualification_row_1">
+                          <td>
+                            <input type="text" readonly value="10th" class="form-control" name="course_name[]"
+                              id="course_name_1"></td>
+                          <td>
+                            <input type="text" value="" name="roll_no[]" class="form-control" id="roll_no_1">
+                          </td>
+                          <td>
+                            <input type="text" value="" name="board_of_education[]" id="board_of_education_1"
+                              class="form-control">
+
+                          </td>
+                          <td>
+                            <input type="text" value="" name="institute[]" id="institute_1" class="form-control">
+                          </td>
+                          <td><input type="text" name="duration_from[]" id="duration_from_1" class="form-control">
+                          </td>
+                          <td><input type="text" name="duration_to[]" id="duration_to_1" class="form-control"></td>
+                          <td>
+                            <input type="text" value="" name="specialization[]" id="specialization_1"
+                              class="form-control">
+                          </td>
+                          <td>
+                            <select name="course_type[]" id="course_type_1" class="form-control">
+                              <option value="Full Time">Full Time</option>
+                              <option value="Part Time">Part Time</option>
+                            </select>
+                          </td>
+                          <td>
+                            <select name="grading_type[]" id="grading_type_1" class="form-control">
+                              <option value="Mark">Mark</option>
+                              <option value="SGPA">SGPA</option>
+                            </select>
+                          </td>
+                          <td>
+                            <input type="text" value="" name="percentage[]" id="percentage_1" class="form-control">
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td align="right" colspan="10"><button type="button" name="add" id="add"
+                              class="btn btn-success btn-xs">+</button></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <h6 class="">Upload Documents</h6>
+                <hr>
+                <div class="row upload-div" id="upload_row">
+                  <div class="col-md-12">
+                    <table class="table table-bordered">
+                      <tbody id="upload-row">
+                        <tr id="upload_row_1">
+                          <td>
+                            <input type="file" class="form-control" id="file_1" name="file[]">
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td align="right"><button type="button" name="upload_add" id="upload_add"
+                              class="btn btn-success btn-xs">+</button></td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+                <h6 class="">Declaration</h6>
+                <hr>
+                <div class="declaration-div">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p>hereby declare that the information given above and in the enclosed
+                        documents is true to the
+                        best of my knowledge and belief and nothing has been concealed therein. I am well aware of the
+                        fact that if
+                        the Information given by me is proved false/not true, I will have to face the punishment as per
+                        the law. Also,
+                        all the benefits availed by me shall be summarily withdrawn.</p>
+                      <br>
+                      <input type="checkbox"> All Terms & conditions Accepted!
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="card-footer">
+                  <input type="submit" value="Save" class="btn btn-primary">
+                  <button type="reset" class="btn btn-danger">Reset</button>
+                </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main><!-- End #main -->
+<style>
+  body {
+    background-color: aliceblue;
+  }
+
+  .nav-item {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-style: italic;
+  }
+
+  #basic_info input[type=text] {
+    width: 100%;
+  }
+
+  h6 {
+    color: blue;
+  }
+</style>
+
+<%- include('../partials/footer-top'); %>
+<%- include('../partials/footer'); %>
+<script>
+  var count = 1;
+  $(document).on('click', '#add', function () {
+    count = count + 1;
+    var html_code = '<tr id="qualification_row_' + count + '">';
+    html_code += '<td><input type="text" class="form-control" name="course_name[]" id="course_name_' + count + '"></td>';
+    html_code += '<td><input type="text" value="" name="roll_no[]" class="form-control" id="roll_no_' + count + '"></td>';
+    html_code += '<td><input type="text" value="" name="board_of_education[]" id="board_of_education_' + count + '" class="form-control"></td>';
+    html_code += '<td><input type="text" value="" name="institute[]" id="institute_' + count + '" class="form-control"></td>';
+    html_code += '<td><input type="text" name="duration_from[]" id="duration_from_' + count + '" class="form-control"></td>';
+    html_code += '<td><input type="text" name="duration_to[]" id="duration_to_' + count + '" class="form-control"></td>';
+    html_code += '<td><input type="text" value="" name="specialization[]" id="specialization_' + count + '" class="form-control"></td>';
+    html_code += '<td><select name="course_type[]" id="course_type_' + count + '" class="form-control"><option value="Full Time">Full Time</option><option value="Part Time">Part Time</option></select></td>';
+    html_code += '<td><select name="grading_type[]" id="grading_type_' + count + '" class="form-control"><option value="Mark">Mark</option><option value="SGPA">SGPA</option></select></td>';
+    html_code += '<td><input type="text" value="" name="percentage[]" id="percentage_' + count + '" class="form-control"></td>'
+    html_code += "<td><button type='button' name='remove' data-row='qualification_row_" + count + "' class='btn btn-danger btn-xs remove'>-</button></td>";
+    html_code += "</tr>";
+    $('.qualification-tbody').append(html_code);
+  });
+  $(document).on('click', '.remove', function () {
+    var delete_row = $(this).data("row");
+    $('#' + delete_row).remove();
+  });
+
+  // add row for file uploading
+  $(document).on('click', '#upload_add', function () {
+    count = count + 1;
+    var html_code = '<tr id="upload_row_' + count + '"><td><input type="file" class="form-control" id="file_1" name="file[]"></td><td><button type="button" name="remove" data-row="upload_row_' + count + '" class="btn btn-danger btn-xs upload_remove">-</button></td></tr>';
+    $('#upload-row').append(html_code);
+  });
+  $(document).on('click', '.upload_remove', function () {
+    var delete_row = $(this).data("row");
+    $('#' + delete_row).remove();
+  }); 
+</script>

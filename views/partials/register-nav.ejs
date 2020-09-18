@@ -1,0 +1,41 @@
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-none d-lg-flex align-items-center fixed-top">
+    <div class="container d-flex">
+      <div class="contact-info mr-auto">
+        <i class="icofont-envelope"></i> <a href="mailto:office@biodesignschool.inm">office@biodesignschool.in</a>
+        <i class="icofont-phone"></i> <a href="tel:91-11-26593758">+91-11-26593758</a>
+      </div>
+      <div class="social-links">
+        <a href="https://www.facebook.com/Biodesign.School" target="_blank" class="facebook"><i class="icofont-facebook"></i></a>
+        <a href="https://www.linkedin.com/school/biodesign.school/about" target="_blank" class="linkedin"><i class="icofont-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo mr-auto"><a href="/"><img src="/images/logo.png" alt=""></a></h1>
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="/">HOME</a></li>
+          
+          <% if(typeof loggedIn != 'undefined' && loggedIn) { %>
+            <li class="dropdown">
+              <a class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= user[0].full_name%>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a href="/users/logout">logout</a>
+              </div>
+            </li>
+          <% } %>
+          
+            
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>
+</header><!-- End Header -->
+  

@@ -1,0 +1,151 @@
+<%- include('../partials/header') %>
+<%- include('../partials/topnav') %>
+<div id="layoutSidenav">
+    <%- include('../partials/sidenav') %>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <div class="app-title">
+                    <div>
+                        <h1><i class="fa fa-user"></i>Create</h1>
+                    </div>
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <a href="/admin/start-ups" class="btn btn-secondary">Back</a>
+                        <%- include('../partials/msg') %>
+                        <!-- <form method="POST" action="/admin/start-ups/store" enctype="multipart/form-data"> -->
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="FirstName">Main Images</label>
+                                        <input required class="form-control" name="image" id="image" type="file"
+                                            placeholder="Enter first name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="LastName">Content Logo</label>
+                                        <input required class="form-control" id="logo" type="file" name="logo"
+                                            placeholder="Enter last name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="Founder">Name of Founder</label>
+                                        <input class="form-control" id="founder" name="founder" type="text"
+                                            aria-describedby="emailHelp" placeholder="Founder Name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="co-founder">Name of Co-Founder</label>
+                                        <input class="form-control" id="co_founder" name="co_founder" type="text"
+                                            aria-describedby="emailHelp" placeholder="Co Founder Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="Founder">Link</label>
+                                        <input required class="form-control" id="link" name="link" type="text"
+                                            aria-describedby="emailHelp" placeholder="Link" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="type">Type</label>
+                                        <select class="form-control" id="type" name="type">
+                                            <option value="1">Start Ups</option>
+                                            <option value="2">Projects</option>
+                                            <option value="3">Third Party License</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="years">Years</label>
+                                        <input required class="form-control years" id="years" name="years" type="text"
+                                            aria-describedby="emailHelp" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <label for="content">Content</label>
+                                    <textarea name="content" class="form-control" id="content"
+                                        placeholder="Content-here"></textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group mt-2 mb-0">
+                                <button class="btn btn-primary" type="button" onclick="save();">Reset</button>
+                                <button class="btn btn-danger" type="reset">Reset</button>
+                            </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<%- include('../partials/footer') %>
+<script>
+    $(function () {
+        $('.years').datepicker({
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 1));
+            }
+        });
+        $(".years").focus(function () {
+            $(".ui-datepicker-month").hide();
+        });
+
+
+    })
+    function save() {
+        var image = $('#image').val();
+        let buff = fs.readFileSync(image);
+        let base64data = buff.toString('base64');
+        // var uri = btoa(image);
+        // var b64 = uri.replace(/^data:image.+;base64,/, '');
+        console.log(base64data) 
+        data = {
+            image: $('#image').val(),
+            logo: $('#logo').val(),
+            founder: $('#founder').val(),
+            co_founder: $('#co_founder').val(),
+            link: $('#link').val(),
+            type: $('#type').val(),
+            years: $('#years').val(),
+            content: $('#content').val(),
+
+        }
+
+        console.log(data)
+        // fetch('https://localhost:3000/admin/start-ups/store', {
+        //     method: 'POST',
+        //     data: data
+        // }).then(function (response) {
+        //     if (response.ok) {
+        //         return response.json();
+        //     }
+        //     return Promise.reject(response);
+        // }).then(function (data) {
+        //     console.log(data);
+        // }).catch(function (error) {
+        //     console.warn('Something went wrong.', error);
+        // });
+    }
+</script>

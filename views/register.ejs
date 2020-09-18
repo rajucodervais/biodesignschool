@@ -1,0 +1,163 @@
+<%- include('partials/header'); %>
+<%- include('partials/register-nav'); %>
+<!-- ======= background slider Section ======= -->
+<main id="main" style="margin-top: 140px;">
+  <div class="container mt-4 mb-4" data-aos="fade-up">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            User Registration
+          </div>
+          <div class="card-body">
+            <%- include('partials/msg'); %>
+            <form action="/user-registration" method="POST">
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Full Name<span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                  <input type="text" name="full_name" id="full_name" class="form-control" placeholder="Full Name">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Father's Name<span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                  <input type="text" name="father_name" id="father_name" class="form-control"
+                    placeholder="Father's Name">
+                </div>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Date Of Birth <span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-5 col-md-5">
+                  <input type="text" readonly name="dob" id="dob" class="form-control" placeholder="date of birth">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-sm-3 col-md-3">
+                  <label for="">Gender <span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-5 col-md-5">
+                  <select name="gender" class="form-control" id="gender">
+                    <option value=""></option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Other</option>
+                  </select>
+                </div>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Email Id<span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                  <input type="email" name="email" id="email" class="form-control" placeholder="Email Id">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Mobile Number<span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                  <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Mobile Number">
+                </div>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Password<span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                  <input type="password" name="password" id="password" class="form-control" placeholder="password">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-3 col-sm-3">
+                  <label for="">Confirm Password<span class="text-danger">*</span> </label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                  <input type="password" name="cpassword" id="cpassword" class="form-control"
+                    placeholder="confirm password">
+                </div>
+              </div>
+              <br>
+              <input type="submit" value="Save" class="btn btn-primary">
+              <button class="btn btn-danger" type="reset">Reset</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">User Login</div>
+
+          <div class="card-body">
+            <form action="/user-login" method="post">
+              <div class="row">
+                <div class="col-md-12">
+                  <label for="">Email Id<span class="text-danger">*</span></label>
+                  <input type="email" name="loginemail" id="loginemail" class="form-control" placeholder="Email">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <label for="">Password <span class="text-danger">*</span></label>
+                  <input type="password" name="loginpassword" id="loginpassword" class="form-control"
+                    placeholder="Password">
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  Forgot Password <a href="">click here</a>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary">Login</button>
+                  <button type="reset" class="btn btn-danger"> Reset</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <p>If you registered already then login Here!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</main><!-- End #main -->
+<style>
+  .card-body input[type=text] {
+    width: 100%;
+  }
+</style>
+
+<%- include('partials/footer-top'); %>
+<%- include('partials/footer'); %>
+<script>
+  $(document).ready(function () {
+    $('#dob').datepicker({
+      //  minDate: -20,
+      maxDate: '-180M',
+    });
+  })
+</script>

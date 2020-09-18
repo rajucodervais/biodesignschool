@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+<%- include('../partials/topnav') %>
+<style>
+    #cke_1_toolbox{
+        display: none;
+    }
+</style>
+<div id="layoutSidenav">
+    <%- include('../partials/sidenav') %>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <div class="app-title card card-content">
+                    <div>
+                        <h1><i class="fa fa-book-open"></i> Posts > create</h1>
+                    </div>
+                    <ul class="app-breadcrumb breadcrumb">
+                        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="/posts" class="btn btn-secondary">Back</a>
+                        </div>
+                        <form class="col s12" method="POST" action="/posts/store">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <label for="title">Title</label>
+                                    <input value="" id="title" placeholder="title" type="text" class="form-control" name="title">
+                                  
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col s12">
+                                  <label for="desc" class="active">Description</label>
+                                  <textarea id="desc" placeholder="description" class="form-control" name="description"></textarea>
+                                  
+                                </div>
+                              </div>
+                              <br>
+                            <div class="row">
+                              <div class="input-field col s4">
+                                <label for="published_date">Published Date</label>
+                                <input placeholder="published Date" id="published_date" type="text" class="form-control published_date" name="date_published">
+                              </div>
+                              <div class="input-field col s4">
+                                <label for="from_date">From Date</label>
+                                <input id="from_date" name="from_date" type="text" class="form-control from_date">
+                              </div>
+                              <div class="input-field col s4">
+                                <label for="to_date">to Date</label>
+                                <input id="to_date" name="to_date" type="text" class="form-control to_date">
+                              </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <button type="submit" class="btn btn-success">Post Now</button>
+                                <button type="reset" class="btn btn-danger">Reset</button>
+                            </div>
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<%- include('../partials/footer') %>
+<script>
+    $(document).ready(function () {
+        $('#published_date').datepicker({
+            autoClose:true,
+            dateFormat:"yy-mm-dd",
+            maxDate: '0',
+            minDate:'0'
+
+        });
+        $('#from_date').datepicker({
+            autoClose:true,
+            dateFormat:"yy-mm-dd",
+            minDate:new Date(),
+            onSelect: function(selected) {
+                $("#to_date").datepicker({minDate: selected,dateFormat:"yy-mm-dd",autoClose:true})
+            }
+        });
+
+        $('#to_date').datepicker({
+            autoClose:true,
+            dateFormat:"yy-mm-dd",
+            minDate:new Date(),
+            onSelect: function(selected) {
+                $("#from_date").datepicker({maxDate: selected,dateFormat:"yy-mm-dd",autoClose:true})
+            }
+        });
+        
+    })
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
+
+    <!-- <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script> -->
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#desc' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
