@@ -1,13 +1,14 @@
 <%- include('../partials/header'); %>
 <%- include('../partials/register-nav'); %>
 <!-- ======= background slider Section ======= -->
-<main id="main" style="margin-top: 140px;">
+<main id="main" style="margin-top: 10px;">
   <div class="container mt-4 mb-4" data-aos="fade-up">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-            <form action="/users/apply-form" method="POST">
+            <form action="/users/apply-form" method="POST" enctype="multipart/form-data">
+              <input type="hidden" value="<%= user[0].id%>" name="id">
               <h6 class="">Basic Informations</h6>
               <hr class="">
               <div class="basic-information">
@@ -75,7 +76,7 @@
                     <label for="">Road/ Street/ Lane</label>
                   </div>
                   <div class="col-sm-4 col-md-4">
-                    <input type="text" name="street" id="street" class="form-control" placeholder="date of birth">
+                    <input type="text" name="street" id="street" class="form-control" placeholder="road / street / lane">
                   </div>
                   <div class="col-sm-2 col-md-2">
                     <label for="">Area/Landmark<span class="">*</span> </label>
@@ -121,10 +122,10 @@
                       Are the Permanent and Present Address same?<span class="">*</span>
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" value="1" id="yes_same" name="radio"> Yes
+                      <input type="radio" value="1" id="yes_same" class="same" name="same"> Yes
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" value="0" id="no_same" name="radio"> no
+                      <input type="radio" value="0" id="no_same" name="same" class="same" > no
                     </label>
                   </div>
                 </div>
@@ -149,7 +150,7 @@
                   </div>
                   <div class="col-sm-4 col-md-4">
                     <input type="text" name="current_street" id="current_street" class="form-control"
-                      placeholder="date of birth">
+                      placeholder="road / street / lane">
                   </div>
                   <div class="col-sm-2 col-md-2">
                     <label for="">Area/Landmark<span class="">*</span> </label>
@@ -237,19 +238,15 @@
                     <table class="table table-bordered">
                       <thead style="background: aliceblue;color: blue;">
                         <tr>
-                          <td width="10%" rowspan="2">Course Name</td>
-                          <td width="10%" rowspan="2">Roll No.</td>
-                          <td width="15%" rowspan="2">Board of Eucation/ University</td>
-                          <td width="15%" rowspan="2">Institute</td>
-                          <td width="10%" colspan="2">Duration</td>
-                          <td width="10%" rowspan="2">Specialization</td>
-                          <td width="10%" rowspan="2">Course Type</td>
-                          <td width="10%" rowspan="2">Grading type</td>
-                          <td width="10%" rowspan="2">SGPA/Percentage</td>
-                        </tr>
-                        <tr>
-                          <td width="5%">From</td>
-                          <td width="5%">To</td>
+                          <td width="10%" >Course Name</td>
+                          <td width="10%" >Roll No.</td>
+                          <td width="15%" >Board of Eucation/ University</td>
+                          <td width="15%" >Institute</td>
+                          <td width="10%" >Passing Year</td>
+                          <td width="10%" >Specialization</td>
+                          <td width="10%" >Course Type</td>
+                          <td width="10%" >Grading type</td>
+                          <td width="10%" >SGPA/Percentage</td>
                         </tr>
 
                       </thead>
@@ -269,9 +266,9 @@
                           <td>
                             <input type="text" value="" name="institute[]" id="institute_1" class="form-control">
                           </td>
-                          <td><input type="text" name="duration_from[]" id="duration_from_1" class="form-control">
+                          <td><input type="text" name="duration_from[]" id="duration_from_1" class="form-control duration_from">
                           </td>
-                          <td><input type="text" name="duration_to[]" id="duration_to_1" class="form-control"></td>
+                          
                           <td>
                             <input type="text" value="" name="specialization[]" id="specialization_1"
                               class="form-control">
@@ -378,6 +375,32 @@
 <%- include('../partials/footer-top'); %>
 <%- include('../partials/footer'); %>
 <script>
+  $(document).ready(function () {
+    $('.duration_from').datepicker({
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 1));
+            }
+        });
+        $(".duration_from").focus(function () {
+            $(".ui-datepicker-month").hide();
+        });
+        $('.duration_to').datepicker({
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 1));
+            }
+        });
+        $(".duration_to").focus(function () {
+            $(".ui-datepicker-month").hide();
+        });  
+  })
   var count = 1;
   $(document).on('click', '#add', function () {
     count = count + 1;
@@ -387,7 +410,6 @@
     html_code += '<td><input type="text" value="" name="board_of_education[]" id="board_of_education_' + count + '" class="form-control"></td>';
     html_code += '<td><input type="text" value="" name="institute[]" id="institute_' + count + '" class="form-control"></td>';
     html_code += '<td><input type="text" name="duration_from[]" id="duration_from_' + count + '" class="form-control"></td>';
-    html_code += '<td><input type="text" name="duration_to[]" id="duration_to_' + count + '" class="form-control"></td>';
     html_code += '<td><input type="text" value="" name="specialization[]" id="specialization_' + count + '" class="form-control"></td>';
     html_code += '<td><select name="course_type[]" id="course_type_' + count + '" class="form-control"><option value="Full Time">Full Time</option><option value="Part Time">Part Time</option></select></td>';
     html_code += '<td><select name="grading_type[]" id="grading_type_' + count + '" class="form-control"><option value="Mark">Mark</option><option value="SGPA">SGPA</option></select></td>';
@@ -411,4 +433,30 @@
     var delete_row = $(this).data("row");
     $('#' + delete_row).remove();
   }); 
+
+  $(document).on('change','.same',function() {
+    console.log('change')
+    var check = $(this).val();
+    console.log(check);
+    if (check == '1') {
+      console.log('yes')
+      $('#current_houseno').val($('#houseno').val());
+      $('#current_street').val($('#street').val());
+      $('#current_landmark').val($('#landmark').val());
+      $('#current_country').val($('#country').val());
+      $('#current_state').val($('#state').val());
+      $('#current_city').val($('#city').val());
+      $('#current_pincode').val($('#pincode').val());
+    }else if( check == '0'){
+      console.log('no')
+      $('#current_houseno').val('');
+      $('#current_street').val('');
+      $('#current_landmark').val('');
+      $('#current_country').val('');
+      $('#current_state').val('');
+      $('#current_city').val('');
+      $('#current_pincode').val('');
+    }
+  })
+  
 </script>

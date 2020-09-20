@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="app-title">
                     <div>
-                        <h1><i class="fa fa-user"></i> Admin > edit</h1>
+                        <h1><i class="fa fa-edit"></i>Edit</h1>
                     </div>
                     <ul class="app-breadcrumb breadcrumb">
                         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -16,40 +16,100 @@
                 </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <div class="msg">
-                            <% if (typeof Msg != 'undefined' && Msg) { %>
-                                <div class="alert alert-success"><%- Msg %></div>
-                            <% } else if(typeof ErrorMsg != 'undefined' && ErrorMsg) { %>
-                                <div class="alert alert-danger"><%- ErrorMsg %></div>
-                            <% } %>
-                        </div>
-                        <form method="POST" action="/admin/update">
-                            <input type="hidden" name="id" value="<%= result[0].id%>">
+                        <a href="/admin/start-ups" class="btn btn-secondary">Back</a>
+                        <%- include('../partials/msg') %>
+                        <form class="form-horizontal" role="form" method="post" action="/admin/start-ups/update"
+                            enctype="multipart/form-data">
+                            <input type="hidden" value="<%= result[0].id%>" name="id">
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="small mb-1" for="FirstName">First Name</label>
-                                        <input required  class="form-control py-4" name="first_name" id="FirstName" type="text"
-                                            placeholder="Enter first name" value="<%= result[0].first_name%>" />
+                                        <label class="small mb-1" for="FirstName">Main Images</label>
+                                        <input class="form-control" name="image" id="image"
+                                            value="<%= result[0].image %>" type="file" accept="" />
+                                        <img src="/uploads/<%= result[0].image %>" alt="" class="w-25">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="small mb-1" for="LastName">Last Name</label>
-                                        <input required  class="form-control py-4" id="LastName" type="text" name="last_name"
-                                            placeholder="Enter last name" value="<%= result[0].last_name%>"/>
+                                        <label class="small mb-1" for="LastName">Content Logo (optional)</label>
+                                        <input class="form-control" id="logo" type="file" name="logo"
+                                            value="<%= result[0].logo %>" />
+                                        <img src="/uploads/<%= result[0].logo %>" alt="" class="w-25">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-12">
-                                    <label class="small mb-1" for="email">Email</label>
-                                <input required  class="form-control py-4" id="email" name="email" type="email"
-                                    aria-describedby="emailHelp" placeholder="Enter email address" value="<%= result[0].email%>"/>
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="place">Place (optional)</label>
+                                        <input class="form-control" id="place" type="text" name="place"
+                                            value="<%= result[0].place %>" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group mt-4 mb-0">
-                                <button class="btn btn-primary" type="submit">Update Account</button>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="Founder">Name of Founder (optional)</label>
+                                        <input class="form-control" id="founder" name="founder" type="text"
+                                            aria-describedby="emailHelp" placeholder="Founder Name"
+                                            value="<%= result[0].founder %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="co-founder">Name of Co-Founder (optional)</label>
+                                        <input class="form-control" id="co_founder" name="co_founder" type="text"
+                                            aria-describedby="emailHelp" placeholder="Co Founder Name"
+                                            value="<%= result[0].co_founder %>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="Founder">Link</label>
+                                        <input required class="form-control" id="link" name="link" type="text"
+                                            aria-describedby="emailHelp" placeholder="Link"
+                                            value="<%= result[0].link %>" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="type">Type</label>
+                                        <select class="form-control" id="type" name="type">
+                                            <option value="1" <%= result[0].type == '1'?'selected':'' %>>Start Ups
+                                            </option>
+                                            <option value="2" <%= result[0].type == '2'?'selected':'' %>>Projects
+                                            </option>
+                                            <option value="3" <%= result[0].type == '3'?'selected':'' %>>Third Party
+                                                License</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="years">Years</label>
+                                        <input required class="form-control years" id="years" name="years" type="text"
+                                            aria-describedby="emailHelp" placeholder=""
+                                            value="<%= result[0].years %>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="content">Content</label>
+                                        <textarea name="content" class="form-control" id="content"
+                                            placeholder="Content-here"><%= result[0].content%></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group mt-2 mb-0">
+                                <button class="btn btn-primary" type="submit">Update</button>
+                                <!-- <button class="btn btn-danger" type="reset">Reset</button> -->
                             </div>
                         </form>
                     </div>
@@ -59,3 +119,21 @@
     </div>
 </div>
 <%- include('../partials/footer') %>
+<script>
+    $(function () {
+        $('.years').datepicker({
+            changeYear: true,
+            showButtonPanel: true,
+            dateFormat: 'yy',
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 1));
+            }
+        });
+        $(".years").focus(function () {
+            $(".ui-datepicker-month").hide();
+        });
+
+
+    })
+</script>

@@ -43,4 +43,13 @@ pageController.userRegistration);
 router.post('/user-login', redirectDashboard, pageController.userLogin);
 
 router.post('/apply-form',redirectLogin, userController.store);
+
+
+// pages
+router.get('/about',redirectDashboard, pageController.about);
+router.get('/fellowship',redirectDashboard, pageController.fellowship);
+router.get('/partners',redirectDashboard, pageController.partners);
+router.get('/start-ups',redirectDashboard, pageController.start_ups);
+router.get('/projects',redirectDashboard, pageController.projects);
+router.get('/meditech',redirectDashboard, pageController.meditech);
 module.exports = router;

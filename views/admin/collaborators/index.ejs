@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="app-title card card-content">
                     <div>
-                        <h1><i class="fa fa-user"></i> Admin</h1>
+                        <h1><i class="fa fa-book"></i> Collaborators</h1>
                     </div>
                     <ul class="app-breadcrumb breadcrumb">
                         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -16,24 +16,17 @@
                 </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <div class="msg">
-                            <% if (typeof Msg != 'undefined' && Msg) { %>
-                                <div class="alert alert-success"><%- Msg %></div>
-                            <% } else if(typeof ErrorMsg != 'undefined' && ErrorMsg) { %>
-                                <div class="alert alert-danger"><%- ErrorMsg %></div>
-                            <% } %>
-                        </div>
+                        <%- include('../partials/msg') %>
                         <div class="card-title  text-right">
-                            <a href="/admin/create" class="btn btn-primary"><i class="fa fa-plus"></i> Add Admin</a>
+                            <a href="/admin/collaborators/create" class="btn btn-primary"><i class="fa fa-plus"></i> Add</a>
                         </div>
                         <br>
                         <table class="responsive-table highlight" id="post-table" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
+                                    <th>Image</th>
+                                    <th>Collaborators Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -42,12 +35,11 @@
                                 <% result.forEach(function(data) { %>
                                     <tr>
                                         <td><%= data.id%></td>
-                                        <td><%= data.first_name%></td>
-                                        <td><%= data.last_name%></td>
-                                        <td><%= data.email%></td>
+                                        <td><img src="/uploads/<%= data.images%>" alt="" class="w-25"></td>
+                                        <td><%= data.collab_name%></td>
                                         <td style="display: inline-flex;">
-                                            <a href="/admin/edit/<%= data.id%>" class="text-primary"><i class="fa fa-edit"></i></a>&nbsp;
-                                            <a href="/admin/destroy/<%= data.id%>" class="text-danger"><i class="fa fa-trash" onclick=" return confirm('Are you sure to delete this row ')? true:false"></i></a>
+                                            <a href="/admin/collaborators/edit/<%= data.id%>" class="text-primary"><i class="fa fa-edit"></i></a>&nbsp;
+                                            <a href="/admin/collaborators/destroy/<%= data.id%>" class="text-danger"><i class="fa fa-trash" onclick=" return confirm('Are you sure to delete this row ')? true:false"></i></a>
                                         </td>
                                     </tr>
                                 <% }); %>

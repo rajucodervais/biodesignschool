@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var flash = require('express-flash');
 var bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');  
 var indexRouter = require('./routes/index');
 var postRouter = require('./routes/posts');
 var usersRouter = require('./routes/user');
@@ -32,7 +33,9 @@ app.use(session({
 }));
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload())
 
+// router
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);

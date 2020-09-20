@@ -28,7 +28,7 @@
                                     <th>Image</th>
                                     <th>Logo</th>
                                     <th>Co-Founder</th>
-                                    <th>Founder</th>
+                                    <th>Founder/Fellows</th>
                                     <th>link</th>
                                     <th>Type</th>
                                     <th>Years</th>
@@ -40,12 +40,24 @@
                                 <% result.forEach(function(data) { %>
                                     <tr>
                                         <td><%= data.id%></td>
-                                        <td><%= data.first_name%></td>
-                                        <td><%= data.last_name%></td>
-                                        <td><%= data.email%></td>
+                                        <td><img src="/uploads/<%= data.image%>" alt="" class="w-50"></td>
+                                        <td><img src="/uploads/<%= data.logo%>" alt="" class="w-50"></td>
+                                        <td><%= data.co_founder%></td>
+                                        <td><%= data.founder%></td>
+                                        <td><%= data.link%></td>
+                                        <td>
+                                            <%if (data.type == '1'){%>
+                                                Start-ups
+                                            <%}else if(data.type == '2'){%>
+                                                Projects
+                                            <%}else{%>
+                                                third Party License
+                                            <%}%>       
+                                        </td>
+                                        <td><%= data.years%></td>
                                         <td style="display: inline-flex;">
-                                            <a href="/admin/edit/<%= data.id%>" class="text-primary"><i class="fa fa-edit"></i></a>&nbsp;
-                                            <a href="/admin/destroy/<%= data.id%>" class="text-danger"><i class="fa fa-trash" onclick=" return confirm('Are you sure to delete this row ')? true:false"></i></a>
+                                            <a href="/admin/start-ups/edit/<%= data.id%>" class="text-primary"><i class="fa fa-edit"></i></a>&nbsp;
+                                            <a href="/admin/start-ups/destroy/<%= data.id%>" class="text-danger"><i class="fa fa-trash" onclick=" return confirm('Are you sure to delete this row ')? true:false"></i></a>
                                         </td>
                                     </tr>
                                 <% }); %>

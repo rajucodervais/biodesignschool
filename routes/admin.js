@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
+const { check, validationResult, body } = require('express-validator');
 const AdminController = require('../controllers/adminController');
 const StartUpController = require('../controllers/startUpController');
-const { check, validationResult, body } = require('express-validator');
-const mime = require('mime');
-const fs = require('fs');
+const CollaboratorController = require('../controllers/CollaboratorController');
 /* GET home page. */
 const redirectLogin = (req, res, next) => {
   if (!req.session.loggedIn) {
@@ -71,8 +70,6 @@ router.get('/users', redirectLogin, AdminController.user_index);
 
 // start-ups
 router.get('/start-ups', StartUpController.index);
-router.get('/projects', StartUpController.index_projects);
-router.get('/third-party', StartUpController.index_third_party);
 router.get('/start-ups/create', StartUpController.create);
 router.post('/start-ups/store', StartUpController.store);
 router.get('/start-ups/edit/:id', StartUpController.edit);
@@ -83,15 +80,14 @@ router.get('/start-ups/view/:id', StartUpController.view);
 
 
 // collaborators
-
-
-
-// projects
-
-
-
-// third party licence
-
-
+router.get('/collaborators', CollaboratorController.index);
+router.get('/collaborators/create', CollaboratorController.create);
+router.post('/collaborators/store',[
+  check('collab_name').not().isEmpty().withMessage('collaborator name is Required'),  
+], CollaboratorController.store);
+router.get('/collaborators/edit/:id', CollaboratorController.edit);
+router.post('/collaborators/update', CollaboratorController.update);
+router.get('/collaborators/destroy/:id', CollaboratorController.destroy);
+router.get('/collaborators/view/:id', CollaboratorController.view);
 
 module.exports = router;

@@ -18,34 +18,44 @@
                     <div class="card-body">
                         <a href="/admin/start-ups" class="btn btn-secondary">Back</a>
                         <%- include('../partials/msg') %>
-                        <!-- <form method="POST" action="/admin/start-ups/store" enctype="multipart/form-data"> -->
+                        <form class="form-horizontal" role="form" method="post" action="/admin/start-ups/store" enctype="multipart/form-data">
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="small mb-1" for="FirstName">Main Images</label>
                                         <input required class="form-control" name="image" id="image" type="file"
-                                            placeholder="Enter first name" />
+                                            accept=""/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="small mb-1" for="LastName">Content Logo</label>
-                                        <input required class="form-control" id="logo" type="file" name="logo"
-                                            placeholder="Enter last name" />
+                                        <label class="small mb-1" for="LastName">Content Logo (optional)</label>
+                                        <input class="form-control" id="logo" type="file" name="logo"
+                                            />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="LastName">Place(optional)</label>
+                                        <input class="form-control" id="place" type="text" name="place"
+                                            />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="small mb-1" for="Founder">Name of Founder</label>
+                                        <label class="small mb-1" for="Founder">Name of Founder (optional)</label>
                                         <input class="form-control" id="founder" name="founder" type="text"
                                             aria-describedby="emailHelp" placeholder="Founder Name" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="small mb-1" for="co-founder">Name of Co-Founder</label>
+                                        <label class="small mb-1" for="co-founder">Name of Co-Founder (optional
+                                            )</label>
                                         <input class="form-control" id="co_founder" name="co_founder" type="text"
                                             aria-describedby="emailHelp" placeholder="Co Founder Name" />
                                     </div>
@@ -86,10 +96,10 @@
                             </div>
                             <br>
                             <div class="form-group mt-2 mb-0">
-                                <button class="btn btn-primary" type="button" onclick="save();">Reset</button>
+                                <button class="btn btn-primary" type="submit">Save</button>
                                 <button class="btn btn-danger" type="reset">Reset</button>
                             </div>
-                        <!-- </form> -->
+                        </form>
                     </div>
                 </div>
             </div>
@@ -114,38 +124,4 @@
 
 
     })
-    function save() {
-        var image = $('#image').val();
-        let buff = fs.readFileSync(image);
-        let base64data = buff.toString('base64');
-        // var uri = btoa(image);
-        // var b64 = uri.replace(/^data:image.+;base64,/, '');
-        console.log(base64data) 
-        data = {
-            image: $('#image').val(),
-            logo: $('#logo').val(),
-            founder: $('#founder').val(),
-            co_founder: $('#co_founder').val(),
-            link: $('#link').val(),
-            type: $('#type').val(),
-            years: $('#years').val(),
-            content: $('#content').val(),
-
-        }
-
-        console.log(data)
-        // fetch('https://localhost:3000/admin/start-ups/store', {
-        //     method: 'POST',
-        //     data: data
-        // }).then(function (response) {
-        //     if (response.ok) {
-        //         return response.json();
-        //     }
-        //     return Promise.reject(response);
-        // }).then(function (data) {
-        //     console.log(data);
-        // }).catch(function (error) {
-        //     console.warn('Something went wrong.', error);
-        // });
-    }
 </script>

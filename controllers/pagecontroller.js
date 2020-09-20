@@ -3,6 +3,8 @@ const User = require('../models/studentModel');
 const stuEducation = require('../models/stuEducation');
 const Upload = require('../models/uploadModel');
 const Applied = require('../models/appliedModel');
+const StartUp = require('../models/startUpModel');
+const Collaborators = require('../models/collaboratorModel');
 const { Op} = require('sequelize');
 const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
@@ -92,11 +94,49 @@ async function userLogin(req, res) {
 }
 
 
+// pages
+async function about(req, res) {
+    var post =await Post.findAll();
+    res.render('about', { 'posts': post });
+}
 
+async function fellowship(req, res) {
+    var post =await Post.findAll();
+    res.render('fellowship', { 'posts': post });
+}
+
+async function partners(req, res) {
+    var startUp =await StartUp.findAll({where:{type:'1'}});
+    var collab =await Collaborators.findAll();
+    res.render('partners', { 'startup': startUp, 'collab':collab });
+}
+
+async function start_ups(req, res) {
+    var startUp =await StartUp.findAll({where:{type:'1'}});
+    res.render('start_ups', { 'startup': startUp });
+}
+
+async function projects(req, res) {
+    var projects =await StartUp.findAll({where:{type:'2'}});
+    var thirdParty =await StartUp.findAll({where:{type:'3'}});
+    res.render('projects', { 'projects': projects, 'thirdparty':thirdParty });
+}
+
+async function meditech(req, res) {
+    var post =await Post.findAll();
+    res.render('about', { 'posts': post });
+}
 module.exports = {
     index: index,
     post: post,
     register:register,
     userRegistration:userRegistration,
-    userLogin:userLogin
+    userLogin:userLogin,
+    about:about,
+    fellowship:fellowship,
+    partners:partners,
+    start_ups:start_ups,
+    projects:projects,
+    meditech:meditech
+
 }

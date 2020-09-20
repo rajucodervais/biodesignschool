@@ -1,30 +1,12 @@
 const StartUp = require('../models/startUpModel');
-const { Op } = require('sequelize');
+const { Op, or } = require('sequelize');
 const { validationResult } = require('express-validator');
 const session = require('express-session');
-var multer = require('multer');
-
+const fs = require("fs")
 async function index(req, res) {
     var result = await StartUp.findAll();
     res.render('admin/start_ups/index', { result: result })
-    
-}
 
-async function index_projects(req, res) {
-    var result = await StartUp.findAll();
-    if (result.length != 0) {
-        res.render('admin/start_ups/index', { result: result })
-    } else {
-        res.render('admin/start_ups/index', { message: "data not found" });
-    }
-}
-async function index_third_party(req, res) {
-    var result = await StartUp.findAll();
-    if (result.length != 0) {
-        res.render('admin/start_ups/index', { result: result })
-    } else {
-        res.render('admin/start_ups/index', { message: "data not found" });
-    }
 }
 
 function create(req, res) {
@@ -38,107 +20,239 @@ async function store(req, res) {
         res.redirect('/admin/start-ups/create');
     }
     else {
-        const { image, logo, founder, co_founder,link,type,years,content } = req.body;
-        var uri = image.toDataURL('image/png'),
-        b64 = uri.replace(/^data:image.+;base64,/, '');
-        console.log(b64); 
-        console.log(image)
-        console.log(logo)
-        console.log(founder)
-        console.log(co_founder)
+        const { founder, co_founder, link, type, years, content, place } = req.body;
+        try {
+            if (!req.files) {
+                req.flash('errors', 'no files were uploaded');
+                res.redirect('/admin/start-ups/create');
+            }
+            var file_image = req.files.image;
+            var img_name = Date.now() + '-' + file_image.name;
+            
+            if (file_image.mimetype == "image/jpeg" || file_image.mimetype == "image/png" || file_image.mimetype == "image/gif") {
+                file_image.mv('public/uploads/' + img_name, async function (err) {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    var logo_name = null;
+                    if (req.files.logo) {
+                        var file_logo = req.files.logo;
+                        var logo_name = Date.now() + '-' + file_logo.name;
+                        file_logo.mv('public/uploads/' + logo_name);    
+                    }
+                    var result = await StartUp.create({
+                        image: img_name,
+                        logo: logo_name,
+                        founder: founder,
+                        co_founder: co_founder,
+                        link: link,
+                        type: type,
+                        years: years,
+                        content: content,
+                        place:place
+                    });
+                    if (result) {
+                        req.flash('success', 'created Successfully');
+                        res.redirect('/admin/start-ups');
+                    } else {
+                        req.flash('errors', 'Something is error');
+                        res.redirect('/admin/start-ups/create');
+                    }
 
-        console.log(link)
-        console.log(type)
-        console.log(years)
-        console.log(content)
-        console.log('store')
-    //     var Storage = multer.diskStorage({
-    //         destination: function(req, file, callback) {
-    //             callback(null, "./Images");
-    //         },
-    //         filename: function(req, file, callback) {
-    //             callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
-    //         }
-    //     });
-        
-    //     var upload = multer({
-    //         storage: Storage
-    //     }).array("imgUploader", 3); //Field name and max count
-    //     var result = await StartUp.create({
-    //         image: image,
-    //         logo: logo,
-    //         founder: founder,
-    //         co_founder: co_founder,
-    //         link: link,
-    //         type: type,
-    //         years: years,
-    //         content: content,
-    //     });
-    //     if (result) {
-    //         req.flash('success', 'Created Successfully~!');
-    //         res.redirect('/admin/start-ups');
-    //     } else {
-    //         req.flash('errors', 'Something is error');
-    //         res.redirect('/admin/start-ups/create');
-    //     }
 
+                });
+            } else {
+                req.flash('errors', "This format is not allowed , please upload file with '.png','.gif','.jpg'");
+                res.redirect('/admin/start-ups/create');
+            }
+
+        } catch (error) {
+            req.flash('errors', error);
+            res.redirect('/admin/start-ups/create');
+        }
     }
-
-
 }
 
 async function edit(req, res, next) {
-    console.log(req.params.id);
-    var result = await Admin.findAll({ where: { id: req.params.id } });
+    var result = await StartUp.findAll({ where: { id: req.params.id } });
     res.render('admin/start_ups/edit', { result: result });
 }
 
 async function update(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.send({
-            status: false,
-            msg: errors.array()[0].msg
-        })
-    }
-    else {
-       
-        const { id, email, first_name, last_name } = req.body;
+    const { id, founder, co_founder, link, type, years, content, place } = req.body;
+    
+    try {
+        var findData = await StartUp.findAll({ where: { id: id } });
+        
+        if (!req.files) {
+            console.log('filenot found')
+            var result = await StartUp.update({
+                founder: founder,
+                co_founder: co_founder,
+                link: link,
+                type: type,
+                years: years,
+                content: content,
+                place:place
+            }, { where: { id: id } });
+            if (result) {
+                req.flash('success', 'updated Successfully');
+                res.redirect('/admin/start-ups');
+            } else {
+                req.flash('errors', 'Something is error');
+                res.redirect('/admin/start-ups/edit' + id);
+            }
 
-        var result = await Admin.update({
-            first_name: first_name,
-            last_name: last_name,
-            email: email
-        }, { where: { id: id } });
-        if (result) {
-            req.flash('success', 'Admin Updated Successfully~!');
-            res.redirect('/admin/start_ups');
+        } else if (req.files.image) {
+            var file_image = req.files.image;
+            var img_name = Date.now() + '-' + file_image.name;
+            if (file_image.mimetype == "image/jpeg" || file_image.mimetype == "image/png" || file_image.mimetype == "image/gif") {
+                file_image.mv('public/uploads/' + img_name, async function (err) {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    var filePath = 'public/uploads/' + findData[0].image;
+                    if (fs.existsSync(filePath)) {
+                        fs.unlinkSync(filePath);
+                    }
+                    var result = await StartUp.update({
+                        image: img_name,
+                        founder: founder,
+                        co_founder: co_founder,
+                        link: link,
+                        type: type,
+                        years: years,
+                        content: content,
+                        place:place
+                    }, { where: { id: id } });
+                    if (result) {
+                        req.flash('success', 'updated Successfully');
+                        res.redirect('/admin/start-ups');
+                    } else {
+                        req.flash('errors', 'Something is error');
+                        res.redirect('/admin/start-ups/edit' + id);
+                    }
+
+
+                });
+            } else {
+                req.flash('errors', "This format is not allowed , please upload file with '.png','.gif','.jpg'");
+                res.redirect('/admin/start-ups/edit' + id);
+            }
+        } else if (req.files.logo) {
+            var file_logo = req.files.logo;
+            var logo_name = Date.now() + '-' + file_logo.name;
+            console.log('logo found')
+            if (file_logo.mimetype == "image/jpeg" || file_logo.mimetype == "image/png" || file_logo.mimetype == "image/gif") {
+                file_logo.mv('public/uploads/' + logo_name, async function (err) {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    var filePath = 'public/uploads/' + findData[0].logo;
+                    if (fs.existsSync(filePath)) {
+                        fs.unlinkSync(filePath);
+                    }
+                    var result = await StartUp.update({
+                        logo: logo_name,
+                        founder: founder,
+                        co_founder: co_founder,
+                        link: link,
+                        type: type,
+                        years: years,
+                        content: content,
+                        place:place
+                    }, { where: { id: id } });
+                    if (result) {
+                        req.flash('success', 'updated Successfully');
+                        res.redirect('/admin/start-ups');
+                    } else {
+                        req.flash('errors', 'Something is error');
+                        res.redirect('/admin/start-ups/edit' + id);
+                    }
+
+
+                });
+            } else {
+                req.flash('errors', "This format is not allowed , please upload file with '.png','.gif','.jpg'");
+                res.redirect('/admin/start-ups/edit' + id);
+            }
         } else {
-            req.flash('errors', 'Something is error');
-            res.redirect('/admin/start_ups');
+            console.log('both found')
+            var file_image = req.files.image;
+            var img_name = Date.now() + '-' + file_image.name;
+            var file_logo = req.files.logo;
+            var logo_name = Date.now() + '-' + file_logo.name;
+            if (file_image.mimetype == "image/jpeg" || file_image.mimetype == "image/png" || file_image.mimetype == "image/gif") {
+                file_image.mv('public/uploads/' + img_name, async function (err) {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    file_image.mv('public/uploads/' + logo_name);
+                    var filePath = 'public/uploads/' + findData[0].image;
+                    console.log(filePath);
+                    if (fs.existsSync(filePath)) {
+                        console.log(filePath)
+                        fs.unlinkSync(filePath);
+                    }
+                    var filePath1 = 'public/uploads/' + findData[0].logo;
+                    if (fs.existsSync(filePath1)) {
+                        fs.unlinkSync(filePath1);
+                    }
+                    var result = await StartUp.create({
+                        image: img_name,
+                        logo: logo_name,
+                        founder: founder,
+                        co_founder: co_founder,
+                        link: link,
+                        type: type,
+                        years: years,
+                        content: content,
+                        place:place
+                    }, { where: { id: id } });
+                    if (result) {
+                        req.flash('success', 'updated Successfully');
+                        res.redirect('/admin/start-ups');
+                    } else {
+                        req.flash('errors', 'Something is error');
+                        res.redirect('/admin/start-ups/edit' + id);
+                    }
+                });
+            } else {
+                req.flash('errors', "This format is not allowed , please upload file with '.png','.gif','.jpg'");
+                res.redirect('/admin/start-ups/edit' + id);
+            }
         }
-
+    } catch (error) {
+        console.log('catch')
+        req.flash('errors', error);
+        res.redirect('/admin/start-ups');
     }
-
-
 }
 
 async function destroy(req, res, next) {
     var id = req.params.id;
-    var result = await Admin.destroy({ where: { id: id } });
-    req.flash('success', 'Admin Deleted Successfully~!');
-    res.redirect('/admin/start_ups');
+    var findData = await StartUp.findAll({ where: { id: id } });
+    console.log(findData[0].image);
+    var filePath = 'public/uploads/' + findData[0].image;
+    if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+    }
+    var filePath1 = 'public/uploads/' + findData[0].logo;
+    if (fs.existsSync(filePath1)) {
+        fs.unlinkSync(filePath1);
+    }
+    var result = await StartUp.destroy({ where: { id: id } });
+    req.flash('success', 'Deleted Successfully~!');
+    res.redirect('/admin/start-ups');
 }
 
 async function view(req, res, next) {
     var id = req.params.id;
-    var result = await Admin.destroy({ where: { id: id } });
-    res.render('admin/start_ups/view',{result:result});
+    var result = await StartUp.destroy({ where: { id: id } });
+    res.render('admin/start_ups/view', { result: result });
 }
 module.exports = {
     index: index,
-    index_projects: index_projects,
-    index_third_party: index_third_party,
     create: create,
     store: store,
     edit: edit,

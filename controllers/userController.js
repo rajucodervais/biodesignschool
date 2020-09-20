@@ -11,6 +11,8 @@ async function index(req, res) {
 
 async function store(req, res){
     console.log(req.body);
+    var course_name = req.body.course_name;
+    console.log(course_name.length)
 }
 
 module.exports = {

@@ -21,8 +21,22 @@
   if (window.matchMedia("(max-width: 991px)").matches) {
     scrolltoOffset += 20;
   }
+  $(function(){
+    var current = location.pathname;
+    console.log(current)
+    $('.nav-menu li a').each(function(){
+        var $this = $(this);
+        console.log($this.attr('href').indexOf(current))
+        // if the current path is like this link, make it active
+        if($this.attr('href') === current){
+          $(this).parent('li').addClass('active');
+        }
+    })
+})
+
   $(document).on('click', '.nav-menu a, .mobile-nav a, .scrollto', function(e) {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+      
       var target = $(this.hash);
       if (target.length) {
         e.preventDefault();
@@ -32,15 +46,18 @@
         if ($(this).attr("href") == '#header') {
           scrollto = 0;
         }
-
+        console.log($(this).attr("href"));
+        console.log(location.pathname)
+        
+        if ($(this).parents('.nav-menu, .mobile-nav').length) {
+          $('.nav-menu .active, .mobile-nav .active').removeClass('active');
+          $(this).attr("href").addClass('active');
+        }
         $('html, body').animate({
           scrollTop: scrollto
         }, 1500, 'easeInOutExpo');
 
-        if ($(this).parents('.nav-menu, .mobile-nav').length) {
-          $('.nav-menu .active, .mobile-nav .active').removeClass('active');
-          $(this).closest('li').addClass('active');
-        }
+        
 
         if ($('body').hasClass('mobile-nav-active')) {
           $('body').removeClass('mobile-nav-active');

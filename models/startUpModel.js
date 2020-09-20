@@ -12,6 +12,7 @@ module.exports = sequelize.define('start_ups', {
     years: Sequelize.STRING(10),
     founder: Sequelize.STRING(100),
     co_founder: Sequelize.STRING(100),
+    place: Sequelize.STRING(250),
     content:Sequelize.TEXT(),
     link:Sequelize.STRING(200),
     type:Sequelize.STRING(100)
